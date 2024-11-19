@@ -112,3 +112,5 @@ IP Genie is a Telegram bot designed to assist users with IP address calculations
 ---
   ## License
   This project is open-source and available for modification and distribution. Contributions are welcome!
+
+---
