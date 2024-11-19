@@ -207,56 +207,51 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def ip_information(ip: str):
     try:
-    
-        # return {"Error: ": "Prefix length required for Class D and E IP addresses."}       
         ip_obj = ipaddress.ip_interface(ip)
         network = ip_obj.network
-        cidr_notation = network.prefixlen
         network_address = network.network_address
-        custom_subnet_mask = network.netmask
 
-        # Separate octets for IP class determination 
+        # Separate octets for IP class determination
         octets = ip.split('.')
         first_octet = int(octets[0])
 
-        # Class, net-host and binary subnet mask
+        # Class, net-host, and binary subnet mask
         if 1 <= first_octet <= 127:
             ip_class = "A"
             net_host = "NET.HOST.HOST.HOST"
-            subnet_mask = "255.0.0.0"
-            binary_subnet_mask = "11111111.00000000.00000000.00000000"
-            default_prefix = "8"
+            default_subnet_mask = "255.0.0.0"
+            binary_default_subnet_mask = "11111111.00000000.00000000.00000000"
+            default_prefix = 8
         elif 128 <= first_octet <= 191:
             ip_class = "B"
             net_host = "NET.NET.HOST.HOST"
-            subnet_mask = "255.255.0.0"
-            binary_subnet_mask = "11111111.11111111.00000000.00000000"
-            default_prefix = "16"
+            default_subnet_mask = "255.255.0.0"
+            binary_default_subnet_mask = "11111111.11111111.00000000.00000000"
+            default_prefix = 16
         elif 192 <= first_octet <= 223:
             ip_class = "C"
             net_host = "NET.NET.NET.HOST"
-            subnet_mask = "255.255.255.0"
-            binary_subnet_mask = "11111111.11111111.11111111.00000000"
-            default_prefix = "24"
+            default_subnet_mask = "255.255.255.0"
+            binary_default_subnet_mask = "11111111.11111111.11111111.00000000"
+            default_prefix = 24
         elif 224 <= first_octet <= 239:
             ip_class = "D (Multicast)"
-            net_host = "Used for multicast addresses and does not have a network or host division."
-            binary_subnet_mask = "Reserved for multicast"
+            net_host = "Used for multicast addresses; no network or host division."
+            binary_default_subnet_mask = "Reserved for multicast"
             default_prefix = "-"
+            return {"Error: ": "Prefix length required for Class D IP addresses."}
         else:
             ip_class = "E (Experimental)"
-            net_host = "Reserved for experimental purposes and does not have a typical network or host division."
-            binary_subnet_mask = "Reserved for experimental"
+            net_host = "Reserved for experimental purposes; no typical network or host division."
+            binary_default_subnet_mask = "Reserved for experimental"
             default_prefix = "-"
-             
-        # Binary Network Address (calculate using network address)
+            return {"Error: ": "Class E IP addresses are reserved for experimental purposes."}
+
+        # Custom Subnet Mask and Binary Network Address
         binary_network_address = '.'.join([format(int(octet), '08b') for octet in str(network_address).split('.')])
 
         # Identify if the IP is private or public
-        if ip_obj.is_private:
-            ip_type = "Private"
-        else:
-            ip_type = "Public"
+        ip_type = "Private" if ip_obj.is_private else "Public"
 
         # Prepare the return object
         return_obj = {
@@ -264,19 +259,17 @@ def ip_information(ip: str):
             "Class: ": ip_class,
             "Network Address: ": str(network_address),
             "Binary Network Address: ": binary_network_address,
-            "Default Subnet Mask: ": str(subnet_mask),
-            "Custom Subnet Mask: ": str(custom_subnet_mask),
-            "Binary Default Subnet Mask: ": binary_subnet_mask,
+            "Default Subnet Mask: ": default_subnet_mask,
+            "Binary Default Subnet Mask: ": binary_default_subnet_mask,
             "Net-Host: ": net_host,
-            "Default Prefix Length: ":default_prefix,
-            "CIDR Notation: ": f"/{cidr_notation}",
+            "Default Prefix Length: ": default_prefix,
             "IP Type: ": ip_type
-        }       
-        
-        return return_obj    
+        }
+
+        return return_obj
+
     except ValueError:
         return {"Error: ": "Invalid IP address. Please try again (e.g., '192.168.1.0/24' or '192.168.1.0')."}
-
 #CIDR subnetting
 def cidr_subnetting(ip: str):
     """
