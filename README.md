@@ -98,12 +98,8 @@ IP Genie is a Telegram bot designed to assist users with IP address calculations
 ---
   ## Contact
   For support or queries, contact the developer on Telegram: @jacob_like_22.
-  
-  Buy me a coffee via Kpay & Wave:
-  
-  Name: Htet Arkar
-  Phone: 09791444137
-  
+  If this bot is helpful to you, you can buy me a coffee!
+    
 ---
   ## About
   IP Genie – Your dedicated IP calculation assistant! Designed to handle IP address calculations easily, 
