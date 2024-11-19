@@ -30,7 +30,7 @@ about_message: str = (
     "IP Genie is your perfect companion for subnetting and managing IP information in any network setup."
 )
 
-contact_message: str = "Contact the developer on Telegram: @htetarkar2246 for any questions or help.\nIf this bot is helpful to you, you can buy me a coffee!\n\nKpay & Wave \nName: Htet Arkar\nPh: 09791444137"
+contact_message: str = "Contact the developer on Telegram: @htetarkar2246 for any questions or help.\nIf this bot is helpful to you, you can buy me a coffee!\n\n"
 
 # Menu messages
 notes_message: str = (
