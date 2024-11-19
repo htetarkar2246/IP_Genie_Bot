@@ -3,7 +3,7 @@
 IP Genie is a Telegram bot designed to assist users with IP address calculations, subnetting and general IP-related information. It offers interactive commands and an intuitive menu-driven interface to perform tasks such as CIDR subnetting, IP class identification and more.
 
 ---
-
+ 
 ## Features
 
 - **IP Information**: Get detailed information about any IP address, including its class, type (private/public), default and custom subnet masks, and more.
