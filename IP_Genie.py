@@ -5,12 +5,20 @@ import ipaddress
 import math
 from dotenv import load_dotenv
 import os
+import logging
+import sys
+
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
 TOKEN: final = os.getenv('TOKEN')
 BOT_USERNAME: final = os.getenv('BOT_USERNAME')
-
+RENDER_URL = os.getenv("RENDER_EXTERNAL_URL")
 # Home messages
 welcome_message: str = (
     "Hello! I’m here to help you with IP calculations.\n"
@@ -644,6 +652,22 @@ if __name__ == '__main__':
     app.add_handler(CallbackQueryHandler(button_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_input))
 
-    print("Bot Starting...")
+    logger.info("Bot Starting...")
     app.run_polling()
+    
+    try:
+        if RENDER_URL:
+            logger.info(f"Running webhook on {RENDER_URL}")
+            app.run_webhook(
+                listen="0.0.0.0",
+                port=int(os.environ.get("PORT", 10000)),
+                webhook_url=f"{RENDER_URL}/"
+            )
+        else:
+            logger.info("Running polling (local mode)")
+            app.run_polling()
+    except (KeyboardInterrupt, SystemExit):
+        logger.info("Bot stopped!")
+        sys.exit(0)
+    
 
