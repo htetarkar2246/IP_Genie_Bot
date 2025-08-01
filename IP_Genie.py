@@ -644,7 +644,7 @@ async def handle_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Invalid Input.", reply_markup=reply_markup)
     
-    if __name__ == '__main__':
+if __name__ == '__main__':
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start_command))
