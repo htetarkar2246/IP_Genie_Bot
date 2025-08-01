@@ -653,7 +653,7 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_input))
 
     logger.info("Bot Starting...")
-    app.run_polling()
+
     
     try:
         if RENDER_URL:
