@@ -644,8 +644,7 @@ async def handle_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Invalid Input.", reply_markup=reply_markup)
     
-    
-if __name__ == '__main__':
+    if __name__ == '__main__':
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start_command))
@@ -654,14 +653,16 @@ if __name__ == '__main__':
 
     logger.info("Bot Starting...")
 
-    
     try:
         if RENDER_URL:
-            logger.info(f"Running webhook on {RENDER_URL}")
+            webhook_path = f"/webhook/{TOKEN}"
+            webhook_url = f"{RENDER_URL}{webhook_path}"
+            logger.info(f"Running webhook on {webhook_url}")
             app.run_webhook(
                 listen="0.0.0.0",
                 port=int(os.environ.get("PORT", 10000)),
-                webhook_url=f"{RENDER_URL}/"
+                webhook_path=webhook_path,
+                webhook_url=webhook_url
             )
         else:
             logger.info("Running polling (local mode)")
@@ -669,5 +670,3 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         logger.info("Bot stopped!")
         sys.exit(0)
-    
-
