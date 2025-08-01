@@ -655,16 +655,16 @@ if __name__ == '__main__':
 
     try:
         if RENDER_URL:
-            webhook_url = f"{RENDER_URL}/webhook/{TOKEN}"
-            logger.info(f"Running webhook on {webhook_url}")
+            logger.info(f"Running webhook on {RENDER_URL}")
             app.run_webhook(
                 listen="0.0.0.0",
                 port=int(os.environ.get("PORT", 10000)),
-                webhook_url=webhook_url
+                webhook_url=f"{RENDER_URL}/"
             )
         else:
             logger.info("Running polling (local mode)")
             app.run_polling()
+
     except (KeyboardInterrupt, SystemExit):
         logger.info("Bot stopped!")
         sys.exit(0)
