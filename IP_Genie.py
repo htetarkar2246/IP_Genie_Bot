@@ -655,13 +655,11 @@ if __name__ == '__main__':
 
     try:
         if RENDER_URL:
-            webhook_path = f"/webhook/{TOKEN}"
-            webhook_url = f"{RENDER_URL}{webhook_path}"
+            webhook_url = f"{RENDER_URL}/webhook/{TOKEN}"
             logger.info(f"Running webhook on {webhook_url}")
             app.run_webhook(
                 listen="0.0.0.0",
                 port=int(os.environ.get("PORT", 10000)),
-                webhook_path=webhook_path,
                 webhook_url=webhook_url
             )
         else:
